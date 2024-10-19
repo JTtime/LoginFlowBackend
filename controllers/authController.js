@@ -24,10 +24,18 @@ const login = async (req, res) => {
 
     const cookieExpiry = parseInt(process.env.COOKIE_EXPIRY) * 1000; // Convert seconds to milliseconds
 
+    res.cookie('auth_token', token, {
+        httpOnly: true,
+        maxAge: cookieExpiry,
+        // domain: 'http://localhost:3000/',
+        secure: true,
+        sameSite: 'None', // Adjust based on your requirements
+    });
     
-    res.cookie('token', token, { httpOnly: true, maxAge: cookieExpiry });
-    res.json({ message: 'Logged in successfully' });
+
+    res.json({ message: 'Logged in successfully', auth_token: token });
 };
+
 
 const logout = (req, res) => {
     res.clearCookie('token');
