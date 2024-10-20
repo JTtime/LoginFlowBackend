@@ -13,7 +13,7 @@ const app = express();
 connectDB();
 
 app.use(cors({
-    origin: ['http://localhost:3000'], // Specify allowed origins
+    origin: ['https://data-visuals.netlify.app'], // Specify allowed origins
     methods: ['GET', 'POST'], // Specify allowed methods
     credentials: true, // Allow cookies to be sent
     allowedHeaders: ['Content-Type', 'Authorization'], // Specify allowed headers
