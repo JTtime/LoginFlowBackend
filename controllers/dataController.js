@@ -5,15 +5,31 @@ const getData = async (req, res) => {
     const { startDate, endDate, age, gender } = req.query;
 
     const filters = {};
-    
+
     if (startDate && endDate) {
-        filters.date = { $gte: new Date(startDate), $lte: new Date(endDate) };
+        // Convert the startDate and endDate from milliseconds to Date objects
+        const start = new Date(parseInt(startDate, 10));
+        const end = new Date(parseInt(endDate, 10));
+        
+        // Format the dates to match the stored format "DD/MM/YYYY"
+        const formattedStart = `${start.getDate() < 10 ? '0' : ''}${start.getDate()}/${
+            start.getMonth() + 1 < 10 ? '0' : ''
+        }${start.getMonth() + 1}/${start.getFullYear()}`;
+        const formattedEnd = `${end.getDate() < 10 ? '0' : ''}${end.getDate()}/${
+            end.getMonth() + 1 < 10 ? '0' : ''
+        }${end.getMonth() + 1}/${end.getFullYear()}`;
+
+        // Use formatted strings for filtering
+        filters.Day = {
+            $gte: formattedStart,
+            $lte: formattedEnd,
+        };
     }
     if (age) {
-        filters.age = age;
+        filters.Age = age;
     }
     if (gender) {
-        filters.gender = gender;
+        filters.Gender = gender;
     }
 
     try {
